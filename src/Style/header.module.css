@@ -1,0 +1,28 @@
+.header-container {
+    background-color: #4C62C5;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+    box-sizing: border-box;
+}
+
+.header-title {
+    font-size: 36px;
+    color: #EEEEEE;
+    cursor: pointer;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    font-size: 20px;
+    margin-right: 50px;
+    color: #EEEEEE;
+    cursor: pointer;
+}

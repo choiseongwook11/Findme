@@ -1,0 +1,42 @@
+.container {
+  width: 100%;
+  max-width: 600px;
+  margin: 100px auto;
+}
+
+.searchForm {
+  display: grid;
+  gap: 20px;
+}
+
+.formGroup {
+  flex-direction: column;
+}
+
+.formGroup label {
+  font-family: 'Paperlogy-7Bold', sans-serif;
+  margin-bottom: 5px;
+}
+
+.formGroup input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-left: 30px;
+  font-family: 'Paperlogy-5Medium', sans-serif;
+}
+
+.searchButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.resultsCount {
+  margin-top: 20px;
+  font-size: 14px;
+  font-family: 'Paperlogy-5Medium', sans-serif;
+}
