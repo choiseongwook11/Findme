@@ -1,9 +1,16 @@
 import React from "react";
 import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import styles from "../Style/section.module.css";
 import "../Style/font.css";
 
 function Lostlist({ data }) {
+    const navigate = useNavigate();
+
+    const handleDetailClick = (item) => {
+        navigate(`/detail/${item.id}`, { state: { item } });
+    };
+
     return (
         <div className={styles["section-container"]}>
             <div className="PaperlogyMedium">
@@ -26,7 +33,11 @@ function Lostlist({ data }) {
                                     {item.map} {item.state}
                                 </div>
                             </div>
-                            <Button variant="contained" className={styles["detail-button"]}>
+                            <Button
+                                variant="contained"
+                                className={styles["detail-button"]}
+                                onClick={() => handleDetailClick(item)}
+                            >
                                 상세정보 보기
                             </Button>
                         </div>

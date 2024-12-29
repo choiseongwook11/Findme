@@ -14,7 +14,7 @@ const Lost = () => {
         region: "",
     });
     const [filteredData, setFilteredData] = useState(data);
-    const [isSearchComplete, setIsSearchComplete] = useState(false); // 검색 완료 여부 관리
+    const [isSearchComplete, setIsSearchComplete] = useState(false);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -28,7 +28,6 @@ const Lost = () => {
         e.preventDefault();
         const { title, startDate, endDate, location, region } = searchFields;
 
-        // 데이터 필터링 로직
         const results = data.filter((item) => {
             const matchesTitle = item.title.includes(title);
             const matchesLocation = item.map.includes(region);
