@@ -1,11 +1,11 @@
 .detail-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 40px;
     margin: 20px auto;
     padding: 20px;
     max-width: 800px;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .detail-image {
@@ -20,6 +20,7 @@
     font-family: 'Paperlogy-7Bold', sans-serif;
     font-size: 30px;
     margin-bottom: 10px;
+    line-height: 1.5;
 }
 
 .detail-info {
@@ -45,3 +46,13 @@
     font-size: 15px;
     line-height: 1.8;
 } 
+
+.error-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 300px;
+    color: #000000;
+    font-size: 30px;
+    font-family: 'Paperlogy-7Bold', sans-serif;
+}

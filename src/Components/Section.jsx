@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import styles from '../Style/section.module.css';
 import '../Style/font.css';
-import data from '../Data/Item';
+import rawData from '../Data/Item';
 import Lostlist from '../Lost/Lostlist';
 
 function Section() {
+    const [filteredData, setFilteredData] = useState([]);
     const [search, setSearch] = useState('');
-    const [filteredData, setFilteredData] = useState(data);
 
-    const handleSearch = (e) => {
-        setSearch(e.target.value);
-        const lowerCaseSearch = e.target.value.toLowerCase();
-        const filtered = data.filter(
-            (item) =>
-                item.title.toLowerCase().includes(lowerCaseSearch) ||
-                item.map.toLowerCase().includes(lowerCaseSearch)
-        );
-        setFilteredData(filtered);
-    };
+    useEffect(() => {
+        const savedData = localStorage.getItem("lostItems");
+        if (savedData) {
+            setFilteredData(JSON.parse(savedData));
+        } else {
+            const data = Array.isArray(rawData) ? rawData : [];
+            setFilteredData(data);
+        }
+    }, []);
 
     return (
         <div className={styles['section-container']}>
@@ -28,7 +27,7 @@ function Section() {
                         className={styles['search-input']}
                         placeholder="분실물 이름, 분실장소 등을 입력하여 주세요"
                         value={search}
-                        onChange={handleSearch}
+                        // onChange={}
                     />
                     <SearchIcon className={styles['input-icon']} />
                 </div>

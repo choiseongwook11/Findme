@@ -1,3 +1,9 @@
 .map-container {
-    margin-top: 200px;
+    margin-top: 70px;
+}
+
+.map-title{
+    font-family: 'Paperlogy-7Bold', sans-serif;
+    font-size: 30px;
+    text-align: center;
 }

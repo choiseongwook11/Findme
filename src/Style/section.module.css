@@ -53,17 +53,17 @@
 }
 
 .lost-container {
-    display: grid;
+    display: flex;
     gap: 20px;
     justify-content: center;
 }
 
 .lost-item {
-    display:flex;
+    display: grid;
     gap: 15px;
     align-items: center;
     padding: 15px;
-    width: 600px;
+    width: 400px;
     border: 1px solid #eee;
     border-radius: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -79,30 +79,51 @@
 }
 
 .lost-item-title {
-    font-size: 16px;
+    font-size: 29px;
     font-weight: bold;
     color: #333;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: nomal;          /* Prevent text from wrapping */
+    overflow: hidden;             /* Hide the overflowed text */
+    text-overflow: ellipsis;      /* Display '...' when text overflows */
+    width: 100%;                  /* Make sure the element takes full width */
+    display: block;               /* Ensure it behaves as a block element */
 }
 
 .lost-item-date {
-    font-size: 14px;
+    font-size: 17px;
     color: gray;
 }
 
 .lost-item-eq {
-    font-size: 14px;
+    font-size: 15px;
     color: rgb(255, 0, 0);
 }
 
+.lost-item-list {
+    list-style-type: none;  /* 기본 점 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+.lost-item-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.lost-item {
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+}
+
 .lost-item-image {
-    width: 80px;
-    height: 80px;
+    width: 180px;
+    height: 180px;
     border-radius: 10px;
     object-fit: cover;
-    margin-right: 15px;
+    margin-bottom: 15px;
 }
 
 .detail-button {

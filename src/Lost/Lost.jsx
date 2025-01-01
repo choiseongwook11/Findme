@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@mui/material";
 import styles from "../Style/lost.module.css";
-import data from "../Data/Item";
 import Lostlist from "./Lostlist";
 import "../Style/font.css";
+import { buildApiUrl } from "../Data/Apiconfig.js";
 
 const Lost = () => {
+    const [data, setData] = useState([]);
     const [searchFields, setSearchFields] = useState({
         title: "",
         startDate: "",
@@ -13,8 +14,64 @@ const Lost = () => {
         location: "",
         region: "",
     });
-    const [filteredData, setFilteredData] = useState(data);
+    const [filteredData, setFilteredData] = useState([]);
     const [isSearchComplete, setIsSearchComplete] = useState(false);
+    const [lastFetched, setLastFetched] = useState(null);
+    
+    useEffect(() => {
+        const savedData = localStorage.getItem("lostItems");
+        if (savedData) {
+            const parsedData = JSON.parse(savedData);
+            setData(parsedData);
+            setFilteredData(parsedData);
+        } else {
+            fetchData();
+        }
+    }, []);
+
+    const fetchData = async () => {
+        const cacheExpirationTime = 10 * 60 * 1000;
+        const currentTime = new Date().getTime();
+        
+        if (!lastFetched || (currentTime - lastFetched > cacheExpirationTime)) {
+            try {
+                const apiUrl = buildApiUrl();
+                const response = await fetch(apiUrl, {
+                    headers: {
+                        "Accept": "application/json",
+                    }
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    const items = result?.response?.body?.items?.item || [];
+
+                    const transformedData = items.map((item) => ({
+                        id: item.atcId,
+                        title: item.fdPrdtNm,
+                        date: item.fdYmd,
+                        map: item.depPlace,
+                        state: "보관중",
+                        image: item.fdFilePathImg && item.fdFilePathImg !== "https://www.lost112.go.kr/lostnfs/images/sub/img02_no_img.gif" 
+                            ? item.fdFilePathImg 
+                            : "https://i.ibb.co/HXkG8cR/notfound.png",
+                    }));
+
+                    setData(transformedData);
+                    setFilteredData(transformedData);
+                    setLastFetched(currentTime);
+                    localStorage.setItem("lostItems", JSON.stringify(transformedData));
+                } else {
+                    const text = await response.text();
+                    console.error('API 호출 오류: 응답이 JSON이 아닙니다.', text);
+                }
+            } catch (error) {
+                console.error("API 호출 오류:", error);
+            }
+        } else {
+            console.log('캐시된 데이터 사용');
+        }
+    };
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -27,13 +84,19 @@ const Lost = () => {
     const handleSearch = (e) => {
         e.preventDefault();
         const { title, startDate, endDate, location, region } = searchFields;
-
+    
         const results = data.filter((item) => {
-            const matchesTitle = item.title.includes(title);
-            const matchesLocation = item.map.includes(region);
-            return matchesTitle && matchesLocation;
+            const matchesTitle = title ? item.title.includes(title) : true;
+            const matchesLocation = location ? item.map.includes(location) : true;
+            const matchesRegion = region ? item.map.includes(region) : true;
+    
+            const matchesDate =
+                (!startDate || new Date(item.date) >= new Date(startDate)) &&
+                (!endDate || new Date(item.date) <= new Date(endDate));
+    
+            return matchesTitle && (matchesLocation || matchesRegion) && matchesDate;
         });
-
+    
         setFilteredData(results);
         setIsSearchComplete(true);
     };
@@ -93,9 +156,12 @@ const Lost = () => {
 
             {isSearchComplete && (
                 <div className={styles["resultsCount"]}>
-                    {filteredData.length}건의 검색 결과가 있습니다.
+                    {filteredData.length > 0
+                        ? `${filteredData.length}건의 검색 결과가 있습니다.`
+                        : "검색 결과가 없습니다."}
                 </div>
             )}
+
             <Lostlist data={filteredData} />
         </div>
     );

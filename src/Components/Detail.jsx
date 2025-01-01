@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import Header from "./Header";
 import Styles from "../Style/detail.module.css";
@@ -8,6 +8,7 @@ import "../Style/font.css";
 function Detail() {
     const { state } = useLocation();
     const { item } = state || {};
+    const navigate = useNavigate();
 
     if (!item) {
         return (
@@ -39,15 +40,25 @@ function Detail() {
                     </div>
                     <div>
                         <span className={Styles["detail-highlight"]}>습득장소:</span>
-                        {item.map} 
+                        {item.get} 
                     </div>
                     <div>
                         <span className={Styles["detail-highlight"]}>접수장소:</span>
-                        {item.map} <Button variant="contained" size="small">지도</Button>
+                        {item.map} 
+                        <Button
+                        variant="contained"
+                        size="small"
+                        onClick={() => {
+                            console.log("Navigating to Mappage with location:", item.map);
+                            navigate("/Mappage", { state: { location: item.map } });
+                        }}
+                    >
+                        지도
+                    </Button>
                     </div>
                     <div>
                         <span className={Styles["detail-highlight"]}>보관장소:</span>
-                        {item.map} <span className={Styles["detail-state"]}>{item.state}</span>
+                        {item.map}
                     </div>
                     <div>
                         <span className={Styles["detail-highlight"]}>
