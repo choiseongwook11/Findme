@@ -38,7 +38,13 @@ function Header() {
                     className={styles['nav-link']}
                     onClick={() => navigate("/Searchpage")}
                 >
-                    검색하기
+                    습득물 검색하기
+                </div>
+                <div
+                    className={styles['nav-link']}
+                    onClick={() => navigate("/Foundpage")}
+                >
+                    분실물 검색하기
                 </div>
                 <div
                     className={styles['nav-link']}
